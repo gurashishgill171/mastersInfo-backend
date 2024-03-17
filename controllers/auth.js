@@ -14,7 +14,7 @@ const client = twilio(accountSid, authToken);
 let user, OTP;
 export const register = async (req, res) => {
 	try {
-		const { phoneNumber } = req.body;
+		let { phoneNumber } = req.body;
 
 		const exsistingUser = await User.findOne({ phoneNumber: phoneNumber });
 
