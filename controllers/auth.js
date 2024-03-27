@@ -20,7 +20,7 @@ export const register = async (req, res) => {
 
 		if (exsistingUser) {
 			return res.status(400).json({
-				message: "User already exsist with this Phone Number",
+				error: "User already exsist with this Phone Number",
 			});
 		}
 
@@ -53,7 +53,7 @@ export const verifyOTP = async (req, res) => {
 		const { otp } = req.body;
 		if (otp != OTP) {
 			return res.status(400).json({
-				message: "Incorrect OTP",
+				error: "Incorrect OTP",
 			});
 		}
 
@@ -69,3 +69,35 @@ export const verifyOTP = async (req, res) => {
 };
 
 export const login = async () => {};
+
+export const saveProfile = async (req, res) => {
+	try {
+		const { phoneNumber } = req.body;
+
+		if (!phoneNumber) {
+			return res.status(400).json({ error: "Phone number is required" });
+		}
+
+		let user = await User.findOne({ phoneNumber });
+
+		if (!user) {
+			return res.status(500).json({ error: "No user with this Phone number" });
+		}
+
+		for (const key in req.body) {
+			if (key !== "phoneNumber") {
+				user[key] = req.body[key];
+			}
+		}
+
+		await user.save();
+
+		return res
+			.status(200)
+			.json({ message: "Profile saved successfully", user });
+	} catch (error) {
+		res.status(500).json({
+			error: e.message,
+		});
+	}
+};
