@@ -63,12 +63,42 @@ export const verifyOTP = async (req, res) => {
 		OTP = "";
 	} catch (error) {
 		res.status(500).json({
-			error: e.message,
+			error: error.message,
 		});
 	}
 };
 
-export const login = async () => {};
+export const login = async (req, res) => {
+	try {
+		const { phoneNumber } = req.body;
+
+		user = await User.findOne({ phoneNumber: phoneNumber });
+
+		if (!user) {
+			return res.status(400).json({
+				error: "No User with this phone number.",
+			});
+		}
+
+		OTP = generateOTP(5);
+
+		await client.messages
+			.create({
+				body: `Your OTP verification code is ${OTP}`,
+				messagingServiceSid: "MG932bbd7e7081a7cfed89df0d6d5b5ffd",
+				to: phoneNumber,
+			})
+			.then((message) =>
+				res.status(200).json({
+					message: message,
+				})
+			);
+	} catch (error) {
+		return res.status(500).json({
+			error: error.message,
+		});
+	}
+};
 
 export const saveProfile = async (req, res) => {
 	try {
