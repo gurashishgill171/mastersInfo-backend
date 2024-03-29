@@ -10,6 +10,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import helmet from "helmet";
 import authRoutes from "./routes/auth.js";
+import PostRoutes from "./routes/post.js";
 
 /* CONFIGURATIONS */
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +27,7 @@ app.use(cors());
 
 /* ROUTES */
 app.use("/auth", authRoutes);
+app.use("/post", PostRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
