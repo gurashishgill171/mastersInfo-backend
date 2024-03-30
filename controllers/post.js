@@ -18,6 +18,10 @@ export const createPost = async (req, res) => {
 		user: user,
 	});
 
+	await newPost.populate(
+		"user",
+		"email firstName lastName plannedYear plannedIntake currentStage _id"
+	);
 	await newPost.save();
 	return res.status(200).json({
 		message: "Post created successfully.",
@@ -29,7 +33,7 @@ export const getPosts = async (req, res) => {
 	try {
 		const posts = await Post.find().populate(
 			"user",
-			"email plannedYear plannedIntake currentStage _id"
+			"email firstName lastName plannedYear plannedIntake currentStage _id"
 		);
 		return res.status(200).json(posts);
 	} catch (error) {

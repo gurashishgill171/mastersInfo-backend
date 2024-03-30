@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema(
 			required: true,
 		},
 		email: String,
+		firstName: String,
+		lastName: String,
 		isMasters: Boolean,
 		interestedCourses: [
 			{
