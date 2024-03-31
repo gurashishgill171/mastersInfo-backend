@@ -45,6 +45,14 @@ const UserSchema = new mongoose.Schema(
 			speaking: Number,
 			testDate: { type: Date },
 		},
+		aptitudeTestInfo: {
+			test: String,
+			verbal: Number,
+			quants: Number,
+			awa: Number,
+			ir: Number,
+			testDate: { type: Date },
+		},
 	},
 	{ timestamps: true }
 );
