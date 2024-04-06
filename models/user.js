@@ -53,6 +53,19 @@ const UserSchema = new mongoose.Schema(
 			ir: Number,
 			testDate: { type: Date },
 		},
+		skills: [{ type: String }],
+		workExperience: {
+			hasExperience: { type: Boolean, default: true },
+			experience: {
+				position: { type: String },
+				organisation: { type: String },
+				nature: { type: String },
+				currentJob: { type: Boolean, default: false },
+				startDate: { type: Date },
+				endDate: { type: Date },
+				description: { type: String },
+			},
+		},
 	},
 	{ timestamps: true }
 );
