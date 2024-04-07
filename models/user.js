@@ -66,6 +66,16 @@ const UserSchema = new mongoose.Schema(
 				description: { type: String },
 			},
 		},
+		project: {
+			hasProject: { type: Boolean, default: true },
+			projectDetails: {
+				title: { type: String },
+				duration: { type: Number },
+				url: { type: String },
+				size: { type: Number},
+				description: { type: String },
+			},
+		},
 	},
 	{ timestamps: true }
 );
