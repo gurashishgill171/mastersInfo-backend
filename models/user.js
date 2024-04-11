@@ -72,7 +72,15 @@ const UserSchema = new mongoose.Schema(
 				title: { type: String },
 				duration: { type: Number },
 				url: { type: String },
-				size: { type: Number},
+				size: { type: Number },
+				description: { type: String },
+			},
+		},
+		research: {
+			hasResearch: { type: Boolean, default: true },
+			researchDetails: {
+				title: { type: String },
+				publicationLevel: { type: String },
 				description: { type: String },
 			},
 		},
