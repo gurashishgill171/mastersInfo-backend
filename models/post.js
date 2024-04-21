@@ -5,8 +5,11 @@ const { Schema } = mongoose;
 
 const PostSchema = new mongoose.Schema(
 	{
-		postTitle: String,
 		postDescription: String,
+		postImage: {
+			publicId: { type: String },
+			url: { type: String },
+		},
 		user: {
 			type: Schema.Types.ObjectId,
 			ref: "User",

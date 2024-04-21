@@ -2,22 +2,41 @@
 
 import Post from "../models/post.js";
 import Comment from "../models/comment.js";
+import cloudinary from "../utils/cloudinary.js";
 
 /** @format */
 
 export const createPost = async (req, res) => {
-	const { postTitle, postDescription, user } = req.body;
-	if (!postTitle || !postDescription) {
+	const { postDescription, user, image } = req.body;
+	if (!postDescription) {
 		return res.status(400).json({
-			error: "Please provide a title and description for the post.",
+			error: "Please provide a description for the post.",
 		});
 	}
 
-	const newPost = await Post.create({
-		postTitle,
-		postDescription,
-		user: user,
-	});
+	let newPost;
+	if (image !== null) {
+		const imageUploadResult = await cloudinary.v2.uploader.upload(image, {
+			folder: "posts",
+		});
+		newPost = await Post.create({
+			postDescription,
+			user: user,
+			postImage: {
+				publicID: imageUploadResult.public_id,
+				url: imageUploadResult.secure_url,
+			},
+		});
+	} else {
+		newPost = await Post.create({
+			postDescription,
+			user: user,
+			postImage: {
+				publicID: null,
+				url: null,
+			},
+		});
+	}
 
 	await newPost.populate(
 		"user",
